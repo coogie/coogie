@@ -4,7 +4,7 @@
   "description": "A personal card for Stephen Coogan (@coogie)",
   "main": "/bin/card.js",
   "bin": {
-    "bitandbang": "./bin/card.js"
+    "coogie": "./bin/card.js"
   },
   "repository": {
     "type": "git",
