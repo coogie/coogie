@@ -1,69 +1,80 @@
 "use strict";
+import { fileURLToPath } from "url";
+import chalk from "chalk";
+import boxen from "boxen";
+import fs from "fs";
+import path, { dirname } from "path";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-// Pull in our modules
-const chalk = require("chalk");
-const boxen = require("boxen");
-const fs = require("fs");
-const path = require("path");
+// Brand colours
+const hex = {
+  Mastodon: "#8c8dff",
+  Twitter: "#1da1f2",
+  GitHub: "#ffffff",
+  npm: "#cb3837",
+  LinkedIn: "#0a66c2",
+  web: "#00a6ed",
+};
+
+const name = "Stephen Coogan";
+const handle = "coogie";
+const work = "Lead Engineer at Personio";
+const web = "https://coog.ie";
+const card = "coogie";
+const socials = [
+  { show: 1, site: "Mastodon", url: "https://mastodon.ie", handle: "@coogie" },
+  { show: 1, site: "Twitter", url: "https://twitter.com", handle: "coogie_ie" },
+  { show: 1, site: "GitHub", url: "https://github.com", handle: "coogie" },
+  { show: 0, site: "npm", url: "https://npmjs.com", handle: "~coogie" },
+  {
+    show: 1,
+    site: "LinkedIn",
+    url: "https://linkedin.com/in",
+    handle: "coogie",
+  },
+];
+
+// Find the longest site name. We'll use this to "right align" the names
+const longest = Math.max(
+  ...socials.map(({ show, site }) => (show ? site.length : 0))
+);
+const pad = (str) => str.padStart(longest);
+const line = (label, value) => {
+  const punct = label ? ":" : " ";
+  const pre = chalk.white.bold(`${pad(label)}${punct}`);
+  const post = value.startsWith("http")
+    ? chalk.gray(value)
+    : chalk.white(value);
+  return `${pre}  ${post}`;
+};
+
+// Put all our output together into a single variable so we can use boxen effectively
+const output = `
+${line("Work", work)}
+
+${socials
+  .filter(({ show }) => show === 1)
+  .map((social) => {
+    if (!social.show) return false;
+    return line(
+      social.site,
+      `${social.url}/${chalk.hex(hex[social.site])(social.handle)}`
+    );
+  })
+  .join("\n")}
+${line("Web", chalk.hex(hex.web)(web))}
+
+${line("Card", `${chalk.hex(hex.npm)("nxp")} ${card}`)}
+`;
 
 // Define options for Boxen
 const options = {
   padding: 1,
   margin: 1,
   borderStyle: "round",
+  title: `${name} / ${handle}`,
 };
-
-// Text + chalk definitions
-const data = {
-  name: chalk.white("              Stephen Coogan"),
-  handle: chalk.white("coogie"),
-  work: chalk.white("Senior Software Engineer at Walmart"),
-  twitter: chalk.gray("https://twitter.com/") + chalk.cyan("coog_ie"),
-  npm: chalk.gray("https://npmjs.com/") + chalk.red("~coogie"),
-  github: chalk.gray("https://github.com/") + chalk.green("coogie"),
-  linkedin: chalk.gray("https://linkedin.com/in/") + chalk.blue("coogie"),
-  web: chalk.cyan("https://coog.ie"),
-  npx: chalk.red("npx") + " " + chalk.white("coogie"),
-  labelWork: chalk.white.bold("       Work:"),
-  labelTwitter: chalk.white.bold("    Twitter:"),
-  labelnpm: chalk.white.bold("        npm:"),
-  labelGitHub: chalk.white.bold("     GitHub:"),
-  labelLinkedIn: chalk.white.bold("   LinkedIn:"),
-  labelWeb: chalk.white.bold("        Web:"),
-  labelCard: chalk.white.bold("       Card:"),
-};
-
-// Actual strings we're going to output
-const newline = "\n";
-const heading = `${data.name} / ${data.handle}`;
-const working = `${data.labelWork}  ${data.work}`;
-const twittering = `${data.labelTwitter}  ${data.twitter}`;
-const npming = `${data.labelnpm}  ${data.npm}`;
-const githubing = `${data.labelGitHub}  ${data.github}`;
-const linkedining = `${data.labelLinkedIn}  ${data.linkedin}`;
-const webing = `${data.labelWeb}  ${data.web}`;
-const carding = `${data.labelCard}  ${data.npx}`;
-
-// Put all our output together into a single variable so we can use boxen effectively
-const output =
-  heading + // data.name + data.handle
-  newline +
-  newline + // Add one whole blank line
-  working +
-  newline +
-  newline + // data.labelOpenSource + data.opensource
-  twittering +
-  newline + // data.labelTwitter + data.twitter
-  npming +
-  newline + // data.labelnpm + data.npm
-  githubing +
-  newline + // data.labelGitHub + data.github
-  linkedining +
-  newline + // data.labelLinkedIn + data.linkedin
-  webing +
-  newline +
-  newline + // data.labelWeb + data.web
-  carding; // data.labelCard + data.npx
 
 fs.writeFileSync(
   path.join(__dirname, "bin/output"),
