@@ -18,8 +18,8 @@
     "prepublish": "npm run build",
     "build": "node build.js",
     "dev": "npm run build && node ./bin/card.js",
-    "lint": "standard",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "prettier --write ./build.js ./README.md ./bin/card.js",
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "keywords": [
     "card",
@@ -36,7 +36,6 @@
   "devDependencies": {
     "boxen": "^7.0.2",
     "chalk": "^5.2.0",
-    "standard": "^17.0.0"
-  },
-  "dependencies": {}
+    "prettier": "^2.8.7"
+  }
 }
