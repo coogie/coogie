@@ -65,7 +65,7 @@ ${socials
   .join("\n")}
 ${line("Web", chalk.hex(hex.web)(web))}
 
-${line("Card", `${chalk.hex(hex.npm)("nxp")} ${card}`)}
+${line("Card", `${chalk.hex(hex.npm)("npx")} ${card}`)}
 `;
 
 // Define options for Boxen
