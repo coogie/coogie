@@ -24,7 +24,7 @@ const web = "https://coog.ie";
 const card = "coogie";
 const socials = [
   { show: 1, site: "Mastodon", url: "https://mastodon.ie", handle: "@coogie" },
-  { show: 1, site: "Twitter", url: "https://twitter.com", handle: "coogie_ie" },
+  { show: 1, site: "Twitter", url: "https://twitter.com", handle: "coog_ie" },
   { show: 1, site: "GitHub", url: "https://github.com", handle: "coogie" },
   { show: 0, site: "npm", url: "https://npmjs.com", handle: "~coogie" },
   {
